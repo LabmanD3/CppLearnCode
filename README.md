@@ -1,2 +1,2 @@
-# CppLearnCode
-Just for test.
+# Cpp learn code
+Testing during the learning process.
