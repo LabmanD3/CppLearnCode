@@ -5,10 +5,10 @@
 **  都不能处于同一行、同一列或同一斜线上，问有多少种摆法。
 **
 */
-#include <vector>
+
 #include <iostream>
 
-#define QUEENSUM 8
+#define QUEENSUM 8                              // 自定义几皇后问题
 
 using namespace std;
 
@@ -20,7 +20,6 @@ class Queen {
         void findSolutions();                   // 找到所有的解决方式
 
     private:
-        // const int queenSum;                     // 自定义几皇后问题
         int solutionsNum;                       // 总共有几种解决方式
         bool arr[QUEENSUM][QUEENSUM];           // 棋盘 => 二维数组
 
@@ -52,34 +51,32 @@ void Queen::printBoard() {
 
 /* 判断是否允许放置 */
 bool Queen::isAllow(int row, int col) const {
+    // 第一行均允许放置
     if (row == 0)
         return true;
 
-    // 判断该列是否能放置Queen
+    // 1. 判断该列是否能放置Queen
     for (int i = 0; i < row; ++i) {
         if (arr[i][col])
             return false;
     }
 
-    // 判断正斜线是否能放置Queen
+    // 2. 判断正斜线是否能放置Queen
     int i = row - 1;
     int j = col - 1;
     while (i >= 0 && j >= 0) {
-        if (arr[i][j])
+        if (arr[i--][j--])
             return false;
-        --i;
-        --j;
     }
 
-    // 判断负斜线是否能放置Queen
+    // 3. 判断负斜线是否能放置Queen
     i = row - 1;
     j = col + 1;
     while (i >= 0 && j < QUEENSUM) {
-        if (arr[i][j])
+        if (arr[i--][j++])
             return false;
-        --i;
-        ++j;
     }
+
     return true;
 }
 
@@ -89,12 +86,12 @@ void Queen::setQueen(int row) {
         arr[row][col] = true;
         if (isAllow(row, col)) {
             if(row + 1 == QUEENSUM) {
-                printBoard();
+                printBoard();       // 这是最后一行，并且允许放置，则直接打印棋盘，solutionsNum同时加一
             } else {
-                setQueen(row + 1);
+                setQueen(row + 1);  // 不是最后一行，则继续递归到下一行
             }
         }
-        arr[row][col] = false;
+        arr[row][col] = false;      // 无法放置就回溯，并置为false 
     }
 }
 
