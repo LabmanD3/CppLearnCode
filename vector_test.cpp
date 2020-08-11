@@ -33,4 +33,5 @@ int main()
       		cout << *Iter1 << " ";
    	cout << ")." << endl;
 
+	return 0;
 }
