@@ -6,15 +6,21 @@ using namespace std;
 int main()
 {
 	const int size = 7; 
-	//int ia[ size ] = { 0, 1, 1, 2, 3, 5, 8 }; 
-	vector< int > ivec( 7 );
-	vector< int >::iterator Iter;
-	
-  
+	vector <int> ia = { 0, 1, 1, 2, 3, 5, 8 }; 
+	vector <int> ivec( 7 );
+	vector <int>::iterator Iter;
+
+	ia.insert(ia.begin() + 2, 6);	// vector在尾部之外的任何位置添加元素都需要移动元素
+	cout << "1. ia中的元素为: ";
+	for ( Iter = ia.begin(); Iter != ia.end(); ++Iter)
+		cout << *Iter << " ";
+	cout << endl;
+
+	cout << "------------------" << endl;
 	for ( int ix = 0; ix < size; ix++ ) 
       		ivec.push_back( ix );
 
-	cout << "ivec中的元素为:";
+	cout << "ivec中的元素为: ";
 	for ( Iter = ivec.begin(); Iter != ivec.end(); ++Iter)
 		cout << *Iter << " ";
 	cout << endl;

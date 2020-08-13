@@ -26,7 +26,7 @@ int main( )
 
    // accumulate函数的第一个功能，求和
    int total;
-   total = accumulate ( v1.begin ( ) , v1.end ( ) , _VAL );
+   total = accumulate ( v1.begin( ) , v1.end( ) , _VAL );
 
    cout << "整数从1到20的和为: " 
         << total << ". " << "累加的初值:" << _VAL << "." << endl;
@@ -42,7 +42,7 @@ int main( )
    int j = 0, partotal;
    for ( Iter1 = v1.begin( ) + 1; Iter1 != v1.end( ) + 1 ; Iter1++ )
    {
-      partotal = accumulate ( v1.begin ( ) , Iter1 , 0 );
+      partotal = accumulate ( v1.begin( ) , Iter1 , 0 );
       v2 [ j ] = partotal;
       j++;
    }
@@ -68,7 +68,7 @@ int main( )
    cout << ")." << endl;
 
    int ptotal;
-   ptotal = accumulate ( v3.begin ( ) , v3.end ( ) , 1 , multiplies<int>( ) );
+   ptotal = accumulate ( v3.begin( ) , v3.end( ) , 1 , multiplies<int>( ) );
 
    cout << "整数1到10的连乘积为: " 
         << ptotal << "." << endl;
@@ -76,7 +76,7 @@ int main( )
    // 构造一个前n项积的向量
    int k = 0, ppartotal;
    for ( Iter3 = v3.begin( ) + 1; Iter3 != v3.end( ) + 1 ; Iter3++ ) {
-      ppartotal = accumulate ( v3.begin ( ) , Iter3 , 1 , multiplies<int>( ) );
+      ppartotal = accumulate ( v3.begin( ) , Iter3 , 1 , multiplies<int>( ) );
       v4 [ k ] = ppartotal;
       k++;
    }
