@@ -1,5 +1,5 @@
-#ifndef CONSTRUCTOR_h
-#define CONSTRUCTOR_h
+#ifndef CONSTRUCTOR_H
+#define CONSTRUCTOR_H
 
 #include <iostream>
 
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif
+#endif  // CONSTRUCTOR_H

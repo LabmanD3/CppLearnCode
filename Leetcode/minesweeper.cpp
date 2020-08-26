@@ -112,7 +112,18 @@ int main() {
         }
         cout << endl;
     }
+    cout << endl;
 
+    click = {3, 0};
+    board = solution.updateBoard(board, click);
+
+    for(auto i : board) {
+        for (auto j : i) {
+            cout << j << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 
     return 0;
 }
