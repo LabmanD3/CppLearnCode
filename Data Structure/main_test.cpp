@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+#include "AVLTree.h"
 #include "BSTree.h"
 
 using namespace std;
@@ -19,6 +20,7 @@ int main() {
     cout << "BSTree is \t";
     bst.printInOrder();
     cout << endl;
+    cout << "Depth is " << bst.depth() << endl;
 
     cout << "Node sum is " << bst.size() << endl;
 
@@ -74,6 +76,28 @@ int main() {
     cout << endl;
 
     cout << "Node sum is " << bst3.size() << endl;
+
+    cout << "~~~~ AVLTree Debug Beginning ~~~~" << endl;
+    AVLTree<int> *avlTree1 = new AVLTree<int>;
+    for(int i = 0; i < a.size(); ++i) {
+        avlTree1->addNode(a[i]);
+    }
+    if(avlTree1->isBalanced()) {
+        cout << "avltree1 is balanced !" << endl;
+        avlTree1->printInOrder();
+        cout << endl;
+    } else {
+        cout << "avltree1 isn't balanced !" << endl;
+    }
+
+    int delNum;
+    cout << "Delete one node: ";
+    cin >> delNum;
+
+    avlTree1->deleteNode(delNum);
+    avlTree1->printInOrder();
+    cout << endl;
+
 
     return 0;
 }

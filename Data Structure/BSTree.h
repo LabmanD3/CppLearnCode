@@ -2,9 +2,11 @@
 #define BSTREE_H
 
 /*
+**  ** 二叉查找树 **
+**  
 **  此处注意两点：
-**  第1点：采用了STL模板。因此，二叉查找树支持任意数据类型。
-**  第2点：将二叉查找树的"声明"和"实现"都位于BSTree.h中。这是因为，在二叉查找树的实现采用了模板；而C++编译器不支持对模板的分离式编译！
+**      第1点：采用了STL模板。因此，二叉查找树支持任意数据类型。
+**      第2点：将二叉查找树的"声明"和"实现"都位于BSTree.h中。这是因为，在二叉查找树的实现采用了模板；而C++编译器不支持对模板的分离式编译！
 */
 
 #include <iostream>
@@ -24,39 +26,41 @@ public:
 };
 
 template <class T>
-class BSTree 
+class BSTree
 {
-private:
+protected:
     BSTNode<T> *mRoot;          // 根结点
     int nodeSum;                // 结点总数
 
 public:
     BSTree(): mRoot(nullptr), nodeSum(0) {};        // 构造函数
     ~BSTree();                                      // 析构函数
-    BSTree(const BSTree<T> &oriTree);                  // 拷贝构造函数
+    BSTree(const BSTree<T> &oriTree);                   // 拷贝构造函数
     BSTree<T> &operator=(const BSTree<T> &otherTree);     // 赋值拷贝运算符
 
     int size() const;                           // 返回结点总数
-    BSTNode<T>* searchData(T dst);              // 查找结点
+    int depth() const;                         // 查看树的深度大小
     T minimum();                         // 查找最小结点
     T maximum();                         // 查找最大结点
+    BSTNode<T>* searchData(T dst);              // 查找结点
     void printPreOrder();                // 前序遍历打印
     void printInOrder();                 // 中序遍历打印
     void printPostOrder();               // 后序遍历打印
-    void addNode(T newData);                  // 添加结点
-    bool deleteNode(T dst);                   // 删除指定结点
+    volatile void addNode(T newData);                  // 添加结点
+    volatile bool deleteNode(T dst);                   // 删除指定结点
     void destroyTree();                      // 销毁二叉树
 
-private:
+protected:
     BSTNode<T>* copyTree(BSTNode<T>* root);                 // 拷贝树 -> 拷贝构造函数
     BSTNode<T>* searchData(BSTNode<T>* root, T dst) const;              // 查找结点
     BSTNode<T>* minimum(BSTNode<T>* root) const;                     // 查找最小结点
     BSTNode<T>* maximum(BSTNode<T>* root) const;                     // 查找最大结点
+    int depth(BSTNode<T> *root) const;                          // 查看该结点的深度大小
     void printPreOrder(BSTNode<T>* root) const;                   // 前序遍历打印
     void printInOrder(BSTNode<T>* root) const;                    // 中序遍历打印
     void printPostOrder(BSTNode<T>* root) const;                  // 后序遍历打印
-    void addNode(BSTNode<T>* &root, BSTNode<T>* &node);              // 添加结点
-    bool deleteNode(BSTNode<T>* &node);                             // 删除指定数据
+    volatile void addNode(BSTNode<T>* &root, BSTNode<T>* &node);              // 添加结点
+    volatile bool deleteNode(BSTNode<T>* &node);                             // 删除指定数据
     void destroyTree(BSTNode<T>* &root);                           // 销毁二叉树
 };
 
@@ -201,6 +205,26 @@ T BSTree<T>::maximum() {
 }
 
 /*
+**  查看树的深度大小
+*/
+template <class T>
+int BSTree<T>::depth(BSTNode<T> *root) const {
+    if(root == nullptr)
+        return 0;
+    
+    int ldep = depth(root->left);
+    int rdep = depth(root->right);
+
+    return (ldep > rdep? ldep: rdep) + 1;
+}
+
+template <class T>
+int BSTree<T>::depth() const {
+    return depth(this->mRoot);
+}
+
+
+/*
 **  前序遍历"二叉树"
 */
 template <class T>
@@ -261,7 +285,7 @@ void BSTree<T>::printPostOrder() {
 **  添加结点
 */
 template <class T>
-void BSTree<T>::addNode(BSTNode<T>* &root, BSTNode<T>* &node) {
+volatile void BSTree<T>::addNode(BSTNode<T>* &root, BSTNode<T>* &node) {
     if(root == nullptr) {
         this->nodeSum++;
         root = node;
@@ -270,31 +294,31 @@ void BSTree<T>::addNode(BSTNode<T>* &root, BSTNode<T>* &node) {
             return ;
         } else if(node->data < root->data) {
             //  往左子树插入
-            addNode(root->left, node);
+            this->addNode(root->left, node);
             root->left->parent = root;
         } else if(node->data > root->data) {
             //  往右子树插入
-            addNode(root->right, node);
+            this->addNode(root->right, node);
             root->right->parent = root;
         }
     }
 }
 
 template <class T>
-void BSTree<T>::addNode(T newData) {
+volatile void BSTree<T>::addNode(T newData) {
     BSTNode<T> *newNode = nullptr;
 
     if(!(newNode = new BSTNode<T>(newData, nullptr, nullptr, nullptr)))
         return ;
 
-    addNode(mRoot, newNode);
+    this->addNode(mRoot, newNode);
 }
 
 /*
 **  找到指定结点，并删除
 */
 template <class T>
-bool BSTree<T>::deleteNode(BSTNode<T>* &node) {
+volatile bool BSTree<T>::deleteNode(BSTNode<T>* &node) {
     if(node == nullptr) {
         return false;
     }
@@ -360,13 +384,11 @@ bool BSTree<T>::deleteNode(BSTNode<T>* &node) {
 }
 
 template <class T>
-bool BSTree<T>::deleteNode(T dst) {
-    BSTNode<T>* delNode = searchData(dst);
+volatile bool BSTree<T>::deleteNode(T dst) {
+    BSTNode<T>* delNode = this->searchData(dst);
 
-    if(delNode != nullptr) {
-        if(deleteNode(delNode))
-            return true;
-    }
+    if(delNode != nullptr)
+        return this->deleteNode(delNode);
 
     return false;
 }
