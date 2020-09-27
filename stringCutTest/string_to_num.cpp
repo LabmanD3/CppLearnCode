@@ -14,7 +14,7 @@ Type string_to_num(const string& str)
 }
 
 
-float get_val(const std::string &ori_str, std::string find_word) {
+float get_val(std::string &ori_str, std::string find_word) {
     auto ret = std::string::npos;
     if((ret = ori_str.find(find_word)) != std::string::npos) {
         // std::cout << "ret is " << ret << std::endl;

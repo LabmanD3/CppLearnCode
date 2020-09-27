@@ -43,7 +43,7 @@ void init_dir() {
     pDir = nullptr;
 }
 
-float get_val(const std::string &ori_str, std::string find_word) {
+float get_val(std::string &ori_str, std::string find_word) {
     auto ret = std::string::npos;
     if((ret = ori_str.find(find_word)) != std::string::npos) {
         int flag = 0;
@@ -116,11 +116,8 @@ int main(int argc, char const *argv[]) {
                 out_file << str_row.substr(lstr, rstr - lstr) << std::endl;
 
             }
-            ret += word_evntid.length();
-            
-            
+            ret += word_evntid.length();   
         }
-        
     }
     
 
